@@ -11,9 +11,12 @@ export default defineConfig({
     vueDevTools(),
   ],
   resolve: {
-    base: '/jb-pages/',
+    base: '/acervo/',
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
+    server: {
+      historyApiFallback: true, // This will handle route fallbacks for history mode
+    }
   },
 })
