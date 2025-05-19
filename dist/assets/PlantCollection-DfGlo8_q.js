@@ -1,0 +1,1 @@
+import{_ as t,c as a,a as o,o as l}from"./index-CVKHl4ou.js";const n={__name:"PlantCollection",setup(s){return(c,e)=>(l(),a("div",null,e[0]||(e[0]=[o("h1",null,"Acervo de plantas",-1)])))}},_=t(n,[["__scopeId","data-v-865da612"]]);export{_ as default};
