@@ -1,0 +1,18 @@
+[
+  {
+    "id": "00001",
+    "name1": "Ipê Amarelo",
+    "name2": "Handroanthus albus",
+    "picture": "https://example.com/ipe.jpg",
+    "latitude": -29.722,
+    "longitude": -53.716
+  },
+  {
+    "id": "00002",
+    "name1": "Araucária",
+    "name2": "Araucaria angustifolia",
+    "picture": "https://example.com/araucaria.jpg",
+    "latitude": -29.725,
+    "longitude": -53.718
+  }
+]
