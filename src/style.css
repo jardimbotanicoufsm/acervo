@@ -1,0 +1,127 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', -apple-system, 'Helvetica', 'Arial', sans-serif;
+  line-height: 1.5;
+}
+header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #4d6339;
+  color: white;
+  justify-content: space-between;
+}
+header h1 {
+  margin: 0;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+}
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.hero {
+  height: 500px;
+  background-color: #cccccc; /* imagem de destaque */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+}
+.section {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+.section-title {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  border-left: 5px solid #4d6339;
+  padding-left: 10px;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.card {
+  background-color: #f0f0f0;
+  flex: 1 1 calc(33% - 20px);
+  min-width: 250px;
+  padding: 15px;
+  border-radius: 10px;
+}
+.card-image {
+  background-color: #999; /* imagem representativa */
+  height: 150px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.filters input, .filters select {
+  padding: 10px;
+  font-size: 1em;
+}
+
+.social-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+}
+
+.social-button {
+  width: 60px;
+  height: 60px;
+  background-color: #4d6339;
+  color: #4d6339;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 22px;
+  transition: background-color 0.3s;
+}
+
+.social-button:hover {
+  background-color: #324124;
+}
+
+
+@font-face {
+    font-family: 'MyriadProRegular';
+    src: url(./assets/fonts/MyriadProRegular.c59859ce.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.myriad-pro-regular {
+    font-family: 'MyriadProRegular', sans-serif;
+}
+
+@font-face {
+    font-family: ZapfHumnstRegular;
+    src: url(./assets/fonts/ZapfHumnstRegular.a4f16afa.ttf)
+}
+
+.zapf-humnst-regular {
+    font-family: ZapfHumnstRegular
+}
+
+footer {
+  background-color: #4d6339;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
