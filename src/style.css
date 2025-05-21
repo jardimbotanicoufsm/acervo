@@ -49,6 +49,7 @@ nav a {
   color: white;
   padding: 10px 20px;
   border-color: #4d6339;
+  border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
 }
@@ -182,7 +183,7 @@ footer {
 }
 
 .splide__slide img {
-  min-width: 100vw / getPerPage();
+  min-width: calc(100vw / var(--splide-per-page, 3));
   min-height: 50svh;
   object-fit: cover;
   object-position: center;

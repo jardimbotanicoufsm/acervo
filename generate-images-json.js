@@ -1,7 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Corrigido para buscar em public/images/species
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const baseDir = path.join(__dirname, 'public', 'images', 'species');
 const output = path.join(__dirname, 'public', 'images.json');
 
@@ -12,7 +15,7 @@ fs.readdirSync(baseDir).forEach(code => {
   if (fs.statSync(codeDir).isDirectory()) {
     const files = fs.readdirSync(codeDir)
       .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f))
-      .map(f => `images/species/${code}/${f}`); // Caminho relativo a partir de public/
+      .map(f => `/acervo/images/species/${code}/${f}`); // Caminho relativo a partir de public/
     if (files.length) result[code] = files;
   }
 });

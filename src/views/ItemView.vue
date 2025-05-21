@@ -1,11 +1,11 @@
 <template>
   <div v-if="plant">
-    <div v-if="plant.images.length > 0">
+    <div v-if="plantImages.length > 0">
       <div id="image-carousel" class="splide" style="max-width:800px;margin:auto;height: 50svh;">
           <div class="splide__track">
               <ul class="splide__list">
                   <li
-                    v-for="(img, idx) in plant.images"
+                    v-for="(img, idx) in plantImages"
                     :key="idx"
                     class="splide__slide"
                   >
@@ -50,11 +50,11 @@
     </section>
 <!-- Splide carousel logic is now handled in the Vue component's mounted hook -->
     <section class="section" id="menu">
-      <button class="button" @click="$router.push('/items')">Voltar para o Acervo</button>
+      <button class="button" @click="$router.push('/itens')">Voltar para o Acervo</button>
     </section>
   </div>
   <div v-else>
-    <p>Loading item...</p>
+    <p>Carregando informações...</p>
   </div>
 </template>
 
@@ -72,6 +72,7 @@ export default {
     return {
       plant: null,
       splide: null,
+      plantImages: [],
     };
   },
   mounted() {
@@ -99,17 +100,29 @@ export default {
                 ? match[10].split(',').map(img => this.getDriveImageUrl(img.trim()))
                 : [],
             };
+            fetch('/acervo/images.json')
+              .then(res => res.json())
+              .then(imagesData => {
+                this.plantImages = imagesData[String(id)] || [];
+                this.$nextTick(() => {
+                  this.mountSplide();
+                  this.addModalClickListeners();
+                  window.addEventListener('resize', this.handleResize);
+                });
+              });
             /*for (let i = 0; i < this.plant.images.length; i++) {
               console.log(this.plant.images[i]);
             }*/
-            this.$nextTick(() => {
+            /*this.$nextTick(() => {
               this.mountSplide();
               this.addModalClickListeners();
               window.addEventListener('resize', this.handleResize);
-            });
+            });*/
           }
         });
       });
+    // Fetch images.json after plant is set
+
   },
   beforeDestroy() {
     if (this.splide) {
@@ -121,7 +134,11 @@ export default {
     getPerPage() {
       return window.innerWidth <= 800 ? 1 : window.innerWidth <= 1200 ? 2 : 3;
     },
+    setPerPageCSSVar() {
+      document.documentElement.style.setProperty('--splide-per-page', this.getPerPage());
+    },
     mountSplide() {
+      this.setPerPageCSSVar();
       if (this.splide) this.splide.destroy();
       this.splide = new Splide('#image-carousel', {
         type: 'loop',
@@ -131,6 +148,7 @@ export default {
       this.splide.mount();
     },
     handleResize() {
+      this.setPerPageCSSVar();
       if (!this.splide) return;
       const currentPerPage = this.splide.options.perPage;
       const newPerPage = this.getPerPage();

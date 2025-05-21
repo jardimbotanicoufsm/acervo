@@ -16,10 +16,10 @@
       </div>
       <div class="header-right">
         <nav class="main-nav">
-          <router-link to="/sobre">Sobre</router-link>
-          <router-link to="./#atracoes">Atrações</router-link>
-          <router-link to="/visite">Visite</router-link>
-          <router-link to="/contato">Contato</router-link>
+          <router-link to="/#sobre">Sobre</router-link>
+          <router-link to="/#atracoes">Atrações</router-link>
+          <router-link to="/#visite">Visite</router-link>
+          <router-link to="/#contato">Contato</router-link>
           <router-link to="/itens">Acervo</router-link>
           <router-link to="/mapa">Mapa</router-link>
         </nav>
