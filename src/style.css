@@ -46,7 +46,8 @@ nav.main-nav {
 }
 
 .hero {
-  height: 500px;
+  min-height: 250px;
+  max-height: 35vw;
   background-color: #cccccc; /* imagem de destaque */
   display: flex;
   justify-content: center;
@@ -101,6 +102,8 @@ nav.main-nav {
   height: 150px;
   border-radius: 5px;
   margin-bottom: 10px;
+  width: 100%;
+  object-fit: cover;
 }
 .filters {
   display: flex;

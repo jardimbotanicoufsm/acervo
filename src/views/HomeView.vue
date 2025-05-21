@@ -14,19 +14,25 @@
       <div class="section-title">Atrações</div>
       <div class="cards">
         <div class="card">
-          <div class="card-image"></div>
+          <div class="card-image">
+            <img :src="trilhasImage" alt="Trilhas Ecológicas" class="card-image">
+          </div>
           <h3>Trilhas Ecológicas</h3>
-          <p>Explore a biodiversidade em trilhas seguras e bem sinalizadas.</p>
+          <p>Explore a biodiversidade nas trilhas do Jardim.</p>
         </div>
         <div class="card">
-          <div class="card-image"></div>
-          <h3>Estufas Temáticas</h3>
-          <p>Conheça plantas de diversos biomas em ambientes controlados.</p>
+          <div class="card-image">
+            <img :src="jardimSensorialImage" alt="Jardim sensorial" class="card-image">
+          </div>
+          <h3>Jardim sensorial</h3>
+          <p>Conheça plantas por meio de seus sentidos.</p>
         </div>
         <div class="card">
-          <div class="card-image"></div>
-          <h3>Espaço Infantil</h3>
-          <p>Atividades educativas e recreativas para as crianças.</p>
+          <div class="card-image">
+            <img :src="espacoInfantilImage" alt="Espaço Infantil" class="card-image">
+          </div>
+          <h3>Visitas guiadas</h3>
+          <p>Conheça mais sobre o jardim com visitas guiadas para grupos.</p>
         </div>
       </div>
     </section>
@@ -73,7 +79,9 @@ import facebookIcon from '@/assets/icons/facebook.svg'
 import instagramIcon from '@/assets/icons/instagram.svg'
 import youtubeIcon from '@/assets/icons/youtube.svg'
 import websiteIcon from '@/assets/icons/website.svg'
-
+import trilhasImage from '@/assets/img/tourguiado.jpg'
+import jardimSensorialImage from '@/assets/img/homepage4.jpg'
+import espacoInfantilImage from '@/assets/img/passeioescola.jpg'
 import homepageImage from '@/assets/img/homepage2crop.jpg'
 
 const heroStyle = {
