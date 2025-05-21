@@ -49,7 +49,9 @@
         </p>
     </section>
 <!-- Splide carousel logic is now handled in the Vue component's mounted hook -->
-
+    <section class="section" id="menu">
+      <button class="button" @click="$router.push('/items')">Voltar para o Acervo</button>
+    </section>
   </div>
   <div v-else>
     <p>Loading item...</p>

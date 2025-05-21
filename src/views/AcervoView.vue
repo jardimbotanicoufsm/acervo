@@ -2,15 +2,20 @@
   <div>
     <h1 style="padding-left: 25px;">Acervo de Espécimes Vegetais</h1>
     <div v-if="entries.length" class="cards" style="margin: 30px;">
-      <div v-for="entry in entries" :key="entry.code" class="card-list">
+      <router-link
+      v-for="entry in entries"
+      :key="entry.code"
+      :to="`/item/${entry.code}`"
+      class="card-list"
+      style="display: block; text-decoration: none; color: inherit;"
+      >
       <h2>{{ entry.commonName || entry.scientificName }}</h2>
       <p><strong>Código:</strong> {{ entry.code }}</p>
       <p><strong>Nome Científico:</strong> {{ entry.scientificName }}</p>
       <p><strong>Família:</strong> {{ entry.family }}</p>
       <p><strong>Origem:</strong> {{ entry.origin }}</p>
       <p><strong>Tipo de Planta:</strong> {{ entry.type }}</p>
-      <router-link :to="`/item/${entry.code}`" class="details-link">Ver detalhes</router-link>
-      </div>
+      </router-link>
     </div>
     <div v-else>
       Carregando dados...
