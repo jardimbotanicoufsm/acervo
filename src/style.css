@@ -155,3 +155,33 @@ footer {
     flex-wrap: wrap;
   }
 }
+
+.splide__slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  /* width é controlada pelo Splide conforme perPage */
+}
+
+.splide__slide img {
+  min-width: 100vw / getPerPage();
+  min-height: 50svh;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+#image-carousel {
+  /*max-width: 800px;*/
+  min-width: 100vw / getPerPage();
+  min-height: 50svh;
+  margin: auto;
+  height: 50svh;
+}
+
+.splide__track,
+.splide__list,
+.splide__slide {
+  height: 100%;
+}

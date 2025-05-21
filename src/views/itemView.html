@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic HTML Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <style>
+        .splide__slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            /* width é controlada pelo Splide conforme perPage */
+        }
+
+        .splide__slide img {
+            min-width: 100vw / getPerPage();
+            min-height: 50svh;
+            object-fit: cover;  
+            object-position: center;
+            display: block;
+        }
+
+        #image-carousel {
+            /*max-width: 800px;*/
+            min-width: 100vw / getPerPage();
+            min-height: 50svh;
+            margin: auto;
+            height: 50svh;
+        }
+
+        .splide__track,
+        .splide__list,
+        .splide__slide {
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <div class="header-left">
+                <img src="assets/img/logo1.png" alt="Logo do Jardim Botânico" class="logo"
+                    style="width: 50px; height: 50px;" />
+                <div class="header-title">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <h1 class="myriad-pro-regular">Jardim Botânico</h1>
+                        <h1 class="zapf-humnst-regular">UFSM</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="#sobre">Sobre</a>
+            <a href="#atracoes">Atrações</a>
+            <a href="#visite">Visite</a>
+            <a href="#contato">Contato</a>
+            <a href="acervo.html">Acervo</a>
+            <a href="mapa.html">Mapa</a>
+        </nav>
+    </header>
+
+
+    <!-- Splide Carousel -->
+    <div id="image-carousel" class="splide" style="max-width:800px;margin:auto;height: 50svh;">
+        <div class="splide__track">
+            <ul class="splide__list">
+                <li class="splide__slide"><img src="item/imagens/20250514_105613.jpg" alt="Imagem 1"></li>
+                <li class="splide__slide"><img src="item/imagens/20250514_105643.jpg" alt="Imagem 2"></li>
+                <li class="splide__slide"><img src="item/imagens/20250514_105724.jpg" alt="Imagem 3"></li>
+                <li class="splide__slide"><img src="item/imagens/20250514_105733.jpg" alt="Imagem 4"></li>
+                <li class="splide__slide"><img src="item/imagens/20250514_105904.jpg" alt="Imagem 5"></li>
+                <li class="splide__slide"><img src="item/imagens/20250514_105942.jpg" alt="Imagem 6"></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Modal para ampliar imagem -->
+    <div id="modal-ampliar"
+        style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;">
+        <span id="fechar-modal"
+            style="position:absolute;top:30px;right:40px;font-size:40px;color:white;cursor:pointer;font-weight:bold;">&times;</span>
+        <img id="imagem-ampliada" src="" alt="Imagem ampliada"
+            style="max-width:90vw;max-height:90vh;box-shadow:0 0 20px #000;border-radius:8px;">
+    </div>
+
+    <!-- Informações Científicas -->
+    <section class="section" id="sobre">
+        <div class="section-title">Jerivá</div>
+        <li><strong>Nome popular:</strong> Jerivá</li>
+        <li><strong>Nome científico:</strong> <em>Syagrus romanzoffiana</em></li>
+        <li><strong>Classificação:</strong> Arecaceae</li>
+        <li><strong>Origem:</strong> Argentina, Uruguai, Brasil (BA – RS) </li>
+    </section>
+
+    <!-- Descrição da Planta -->
+    <section class="section" id="sobre">
+        <div class="section-title">Sobre</div>
+        <p>O Jerivá é uma palmeira nativa da América do Sul, conhecida por suas folhas em forma de leque e frutos
+            comestíveis. É uma planta resistente e adaptável, frequentemente encontrada em áreas úmidas e florestas
+            tropicais. Além de sua importância ecológica, o Jerivá é valorizado por suas propriedades ornamentais e pela
+            produção de palmito.</p>
+    </section>
+
+    <!-- Localização -->
+    <section class="section" id="sobre">
+        <div class="section-title">Localização</div>
+        <p><span style="display:inline-block; min-width: 300px;">Indivíduo 00336</span><span
+                style="display:inline-block; min-width: 150px;">Latitude: -22.9068</span> Longitude: -43.1729</p>
+    </section>
+    <!-- Rodapé -->
+    <footer>
+        &copy; 2025 Jardim Botânico - Todos os direitos reservados
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script>
+        // Função para definir perPage dinamicamente
+        function getPerPage() {
+            return window.innerWidth <= 800 ? 1 : window.innerWidth <= 1200 ? 2 : 3;
+        }
+
+        var splide;
+        function addModalClickListeners() {
+            document.querySelectorAll('#image-carousel .splide__slide img').forEach(function (img) {
+                img.onclick = function () {
+                    document.getElementById('imagem-ampliada').src = this.src;
+                    document.getElementById('modal-ampliar').style.display = 'flex';
+                };
+            });
+        }
+        function mountSplide() {
+            if (splide) splide.destroy();
+            splide = new Splide('#image-carousel', {
+                type: 'loop',
+                perPage: getPerPage(),
+            });
+            splide.on('mounted updated move', addModalClickListeners);
+            splide.mount();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            mountSplide();
+            window.addEventListener('resize', function () {
+                // Só atualiza se o perPage realmente mudar
+                var currentPerPage = splide.options.perPage;
+                var newPerPage = getPerPage();
+                if (currentPerPage !== newPerPage) {
+                    mountSplide();
+                }
+            });
+        });
+        // Fechar modal ao clicar no X ou fora da imagem
+        document.getElementById('fechar-modal').onclick = function () {
+            document.getElementById('modal-ampliar').style.display = 'none';
+        };
+        document.getElementById('modal-ampliar').onclick = function (e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+
+</html>
