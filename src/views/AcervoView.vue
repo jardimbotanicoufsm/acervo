@@ -60,7 +60,6 @@ export default {
       return lines.map(line => {
         // Simple CSV split, works if no commas inside fields
         // Split CSV line by tabs, ignoring tabs inside quotes
-        console.log(line);
         // Since fields are separated by tabs and there are no tabs inside fields,
         // we can safely split by '\t' without worrying about quoted fields.
         const cols = line.split('\t');

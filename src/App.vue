@@ -4,12 +4,14 @@
       <div class="header-left">
         <div class="header-logo">
           <img :src="logoSrc" alt="Logo do Jardim Botânico" class="logo" style="width: 50px; height: 50px;" />
-          <div class="header-title">
-            <div style="display: flex; gap: 10px; align-items: center;">
+          <router-link to="/" style="color: white; text-decoration: none;">
+            <div class="header-title">
+              <div style="display: flex; gap: 10px; align-items: center;">
               <h1 class="myriad-pro-regular">Jardim Botânico</h1>
               <h1 class="zapf-humnst-regular">UFSM</h1>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
       <div class="header-right">

@@ -82,6 +82,7 @@ export default {
           delimiter: '\t',
           complete: (results) => {
             const match = results.data.find(p => p[0] === id);
+            //console.log(match);
             this.plant = {
               id: match[0],
               scientific_name: match[1],
@@ -92,8 +93,13 @@ export default {
               latitude: match[7],
               longitude: match[8],
               description: match[9],
-              images: match[10] ? match[10].split(',') : [],
+              images: match[10]
+                ? match[10].split(',').map(img => this.getDriveImageUrl(img.trim()))
+                : [],
             };
+            /*for (let i = 0; i < this.plant.images.length; i++) {
+              console.log(this.plant.images[i]);
+            }*/
             this.$nextTick(() => {
               this.mountSplide();
               this.addModalClickListeners();
@@ -146,6 +152,19 @@ export default {
           this.style.display = 'none';
         }
       };
+    },
+    getDriveImageUrl(linkOrId) {
+      if (linkOrId.startsWith('https://drive.google.com/thumbnail?id=')) {
+        return linkOrId;
+      }
+      const match = linkOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match) {
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+      }
+      if (/^[a-zA-Z0-9_-]{20,}$/.test(linkOrId)) {
+        return `https://drive.google.com/thumbnail?id=${linkOrId}&sz=w1000`;
+      }
+      return linkOrId;
     },
   }
 }
