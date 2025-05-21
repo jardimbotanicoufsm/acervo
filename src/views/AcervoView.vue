@@ -1,32 +1,17 @@
 <template>
   <div>
-    <h1>Acervo de Espécimes Vegetais</h1>
-    <table v-if="entries.length">
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Nome Científico</th>
-          <th>Nome Popular</th>
-          <th>Família</th>
-          <th>Origem</th>
-          <th>Tipo de Planta</th>
-          <th>Detalhes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="entry in entries" :key="entry.code">
-          <td>{{ entry.code }}</td>
-          <td>{{ entry.scientificName }}</td>
-          <td>{{ entry.commonName }}</td>
-          <td>{{ entry.family }}</td>
-          <td>{{ entry.origin }}</td>
-          <td>{{ entry.type }}</td>
-          <td>
-            <router-link :to="`/item/${entry.code}`">Ver</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <h1 style="padding-left: 25px;">Acervo de Espécimes Vegetais</h1>
+    <div v-if="entries.length" class="cards" style="margin: 30px;">
+      <div v-for="entry in entries" :key="entry.code" class="card-list">
+      <h2>{{ entry.commonName || entry.scientificName }}</h2>
+      <p><strong>Código:</strong> {{ entry.code }}</p>
+      <p><strong>Nome Científico:</strong> {{ entry.scientificName }}</p>
+      <p><strong>Família:</strong> {{ entry.family }}</p>
+      <p><strong>Origem:</strong> {{ entry.origin }}</p>
+      <p><strong>Tipo de Planta:</strong> {{ entry.type }}</p>
+      <router-link :to="`/item/${entry.code}`" class="details-link">Ver detalhes</router-link>
+      </div>
+    </div>
     <div v-else>
       Carregando dados...
     </div>
