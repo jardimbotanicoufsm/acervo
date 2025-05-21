@@ -10,11 +10,20 @@ header {
   background-color: #4d6339;
   color: white;
   justify-content: space-between;
+  flex-wrap: wrap; /* optional, helps with wrapping */
 }
 header h1 {
   margin: 0;
 }
+.header-logo {
+  display: flex;
+  align-items: center;
+}
 .header-left {
+  display: flex;
+  align-items: center;
+}
+.header-right {
   display: flex;
   align-items: center;
 }
@@ -124,4 +133,25 @@ footer {
   color: white;
   text-align: center;
   padding: 20px;
+}
+
+/* Responsive: stack header-left and header-right vertically on small screens */
+@media (max-width: 875px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .header-left,
+  .header-right {
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .header-right {
+    margin-bottom: 0;
+  }
+  nav.main-nav {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
