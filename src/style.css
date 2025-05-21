@@ -33,6 +33,18 @@ nav a {
   text-decoration: none;
   font-weight: bold;
 }
+
+nav.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* optional: space between links */
+}
+
+.logo{
+  width: 50px;
+  height: 50px;
+}
+
 .hero {
   height: 500px;
   background-color: #cccccc; /* imagem de destaque */
@@ -80,7 +92,7 @@ nav a {
 .card-list {
   background-color: #f0f0f0;
   flex: 1 1 calc(33% - 20px);
-  min-width: 400px;
+  min-width: 40vw;
   padding: 15px;
   border-radius: 20px;
 }
@@ -170,10 +182,20 @@ footer {
   }
   nav.main-nav {
     justify-content: center;
-    flex-wrap: wrap;
+    width: 100%;
+    row-gap: 10px; /* optional: vertical space between rows */
   }
 }
 
+@media (max-width: 450px){
+  .header-left {
+    font-size: 3vw;
+  }
+  .logo {
+    width: 10vw;
+    height: 10vw;
+  }
+}
 .splide__slide {
   display: flex;
   align-items: center;

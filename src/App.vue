@@ -3,7 +3,7 @@
     <header>
       <div class="header-left">
         <div class="header-logo">
-          <img :src="logoSrc" alt="Logo do Jardim Botânico" class="logo" style="width: 50px; height: 50px;" />
+          <img :src="logoSrc" alt="Logo do Jardim Botânico" class="logo" />
           <router-link to="/" style="color: white; text-decoration: none;">
             <div class="header-title">
               <div style="display: flex; gap: 10px; align-items: center;">
