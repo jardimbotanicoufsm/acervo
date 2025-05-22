@@ -169,7 +169,7 @@ footer {
 }
 
 /* Responsive: stack header-left and header-right vertically on small screens */
-@media (max-width: 875px) {
+@media (max-width: 1050px) {
   header {
     flex-direction: column;
     align-items: stretch;
