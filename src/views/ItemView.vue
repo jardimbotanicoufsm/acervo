@@ -9,7 +9,7 @@
                     :key="idx"
                     class="splide__slide"
                   >
-                    <img :src="img" :alt="`Imagem ${idx + 1}`" />
+                    <img :src="img" :alt="`Imagem ${idx + 1}`" loading="lazy" />
                   </li>
               </ul>
           </div>
