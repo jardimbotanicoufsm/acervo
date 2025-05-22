@@ -22,6 +22,7 @@
           <router-link to="/#contato">Contato</router-link>
           <router-link to="/itens">Acervo</router-link>
           <router-link to="/mapa">Mapa</router-link>
+          <a href="https://jbsm.inf.ufsm.br/360/">Visão 360°</a>
         </nav>
       </div>
     </header>

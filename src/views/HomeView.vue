@@ -11,7 +11,7 @@
     </section>
 
     <section class="section" id="atracoes">
-      <div class="section-title">Atrações</div>
+      <div class="section-title"><strong>Atrações</strong></div>
       <div class="cards">
         <div class="card">
           <div class="card-image">
@@ -38,7 +38,7 @@
     </section>
 
     <section class="section" id="visite">
-      <div class="section-title">Planeje sua Visita</div>
+      <div class="section-title"><strong>Planeje sua Visita</strong></div>
       <p>
         O Jardim está aberto de segunda a sexta, das 8h às 17h. Abre eventualmente aos domingos.<br>
         Agendamentos de visitas escolares ou grupos (durante período letivo) pelo formulário:
@@ -48,7 +48,7 @@
     </section>
 
     <section class="section" id="contato">
-      <div class="section-title">Contato</div>
+      <div class="section-title"><strong>Contato</strong></div>
       <p>
         Administração: +55 55 3220-8973<br>
         Visitações: +55 55 99193-8183<br>
