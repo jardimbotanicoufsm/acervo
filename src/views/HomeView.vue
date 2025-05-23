@@ -3,7 +3,7 @@
     <div class="hero" :style="heroStyle"></div>
 
     <section class="section" id="sobre">
-      <div class="section-title"><strong>Sobre o Jardim</strong></div>
+      <div class="section-title">Sobre o Jardim</div>
       <p>
         Somos o Jardim Botânico da Universidade Federal de Santa Maria, Órgão Suplementar do Centro de Ciências Naturais e Exatas da Universidade Federal de Santa Maria (CCNE/UFSM).<br>
         O Jardim Botânico da UFSM (JBSM) foi fundado em 1981. Seu acervo apresenta 349 espécies catalogadas, num total de aproximadamente 2500 indivíduos, distribuídas em 13 hectares. O JBSM tem por missão ser um local privilegiado de conservação das espécies florestais nativas do Rio Grande do Sul, servindo como base de apoio às atividades de ensino, pesquisa e extensão, assim como um centro de lazer para a comunidade em geral. É um espaço aberto para a comunidade em geral, com entrada franca.<br>
