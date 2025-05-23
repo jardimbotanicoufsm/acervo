@@ -14,7 +14,7 @@
                     :srcset="`${getOptimizedImage(img, 400)} 400w, ${getOptimizedImage(img, 800)} 800w`"
                     sizes="(max-width: 600px) 400px, 800px"
                     :alt="`Imagem ${idx + 1}`"
-                    :data-original="img"
+                    @click="openModal(img)"
                     style="cursor:zoom-in"
                   />
                 </li>
@@ -152,7 +152,6 @@ export default {
       document.documentElement.style.setProperty('--splide-per-page', this.getPerPage());
     },
     mountSplide() {
-      console.log('Mounting splide');
       this.setPerPageCSSVar();
       if (this.splide) this.splide.destroy();
       this.splide = new Splide('#image-carousel', {
@@ -160,14 +159,6 @@ export default {
         perPage: this.getPerPage(),
       });
       this.splide.on('mounted updated move', this.addModalClickListeners);
-      // Adiciona listener para ampliar qualquer imagem, inclusive slides clonados
-      this.splide.on('click', (slide, e) => {
-        const img = slide.querySelector('img');
-        if (img) {
-          const dataOriginal = img.getAttribute('data-original');
-          this.openModal(dataOriginal);
-        }
-      });
       this.splide.mount();
     },
     handleResize() {
@@ -181,12 +172,12 @@ export default {
     },
     getOptimizedImage(img, size) {
       // Exemplo: /acervo/images/species/00277/20250514_110933.jpg => /acervo/images/species/00277/400/20250514_110933.jpg
-      console.log('getOptimizedImage input:', img, size);
+      //console.log('getOptimizedImage input:', img, size);
       const parts = img.split('/');
       const filename = parts.pop();
       const id = parts[parts.length - 1];
       const optimizedImg = `/acervo/images/species/${id}/${size}/${filename}`;
-      console.log('getOptimizedImage output:', optimizedImg);
+      //console.log('getOptimizedImage output:', optimizedImg);
       return optimizedImg;
     },
     openModal(img) {
