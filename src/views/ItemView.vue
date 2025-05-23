@@ -4,13 +4,20 @@
       <div id="image-carousel" class="splide" style="max-width:800px;margin:auto;height: 50svh;">
           <div class="splide__track">
               <ul class="splide__list">
-                  <li
-                    v-for="(img, idx) in plantImages"
-                    :key="idx"
-                    class="splide__slide"
-                  >
-                    <img :src="img" :alt="`Imagem ${idx + 1}`" loading="lazy" />
-                  </li>
+                <li
+                  v-for="(img, idx) in plantImages"
+                  :key="idx"
+                  class="splide__slide"
+                >
+                  <img
+                    :src="getOptimizedImage(img, 400)"
+                    :srcset="`${getOptimizedImage(img, 400)} 400w, ${getOptimizedImage(img, 800)} 800w`"
+                    sizes="(max-width: 600px) 400px, 800px"
+                    :alt="`Imagem ${idx + 1}`"
+                    @click="openModal(img)"
+                    style="cursor:zoom-in"
+                  />
+                </li>
               </ul>
           </div>
       </div>
@@ -156,14 +163,25 @@ export default {
         this.mountSplide();
       }
     },
+    getOptimizedImage(img, size) {
+      // Exemplo: /acervo/images/species/00277/20250514_110933.jpg => /acervo/images/species/00277/400/20250514_110933.jpg
+      const parts = img.split('/');
+      const filename = parts.pop();
+      const id = parts[parts.length - 1];
+      return `/acervo/images/species/${id}/${size}/${filename}`;
+    },
+    openModal(img) {
+      // Carrega a versão 1920px no modal
+      const parts = img.split('/');
+      const filename = parts.pop();
+      const id = parts[parts.length - 1];
+      const bigImg = `/acervo/images/species/${id}/1920/${filename}`;
+      const modalImg = document.getElementById('imagem-ampliada');
+      modalImg.src = bigImg;
+      document.getElementById('modal-ampliar').style.display = 'flex';
+    },
     addModalClickListeners() {
-      document.querySelectorAll('#image-carousel .splide__slide img').forEach((img) => {
-        img.onclick = function () {
-          document.getElementById('imagem-ampliada').src = this.src;
-          document.getElementById('modal-ampliar').style.display = 'flex';
-        };
-      });
-      // Fechar modal ao clicar no X ou fora da imagem
+      // Remove o onclick antigo, pois agora usamos @click no Vue
       document.getElementById('fechar-modal').onclick = function () {
         document.getElementById('modal-ampliar').style.display = 'none';
       };
