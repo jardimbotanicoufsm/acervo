@@ -41,7 +41,13 @@
 
 <script>
 import logo from '@/assets/img/logo1.png'
+import dataStore from './main.js';
 export default {
+  async created() {
+    await dataStore.fetchTSV();
+    // Optionally provide to children using provide/inject
+    this.$root.$tsvData = dataStore.entries;
+  },
   data() {
     return {
       logoSrc: logo

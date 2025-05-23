@@ -60,9 +60,10 @@
       <button class="button" @click="$router.push('/itens')">Voltar para o Acervo</button>
     </section>
   </div>
-  <div v-else>
-    <p>Carregando informações...</p>
-  </div>
+  <div v-else class="loading-container">
+      <div class="spinner"></div>
+      <span style="margin-top: 12px; color: #4d6339;">Carregando dados...</span>
+    </div>
 </template>
 
 <style scoped>
@@ -73,6 +74,7 @@
 <script>
 import Papa from 'papaparse';
 import Splide from '@splidejs/splide';
+import dataStore from '@/main.js';
 
 export default {
   data() {
@@ -84,52 +86,17 @@ export default {
   },
   mounted() {
     const id = this.$route.params.id;
-    fetch('https://docs.google.com/spreadsheets/d/1jxPq1Pj7szd6Cw3uQq1l9N6iFCEAeLUR1bh978gJF9g/export?format=tsv')
-      .then(response => response.text())
-      .then(csv => {
-        Papa.parse(csv, {
-          header: false,
-          delimiter: '\t',
-          complete: (results) => {
-            const match = results.data.find(p => p[0] === id);
-            //console.log(match);
-            this.plant = {
-              id: match[0],
-              scientific_name: match[1],
-              common_name: match[2],
-              class: match[3],
-              type: match[5],
-              origin: match[4],
-              latitude: match[7],
-              longitude: match[8],
-              description: match[9],
-              images: match[10]
-                ? match[10].split(',').map(img => this.getDriveImageUrl(img.trim()))
-                : [],
-            };
-            fetch('/acervo/images.json')
-              .then(res => res.json())
-              .then(imagesData => {
-                this.plantImages = imagesData[String(id)] || [];
-                this.$nextTick(() => {
-                  this.mountSplide();
-                  this.addModalClickListeners();
-                  window.addEventListener('resize', this.handleResize);
-                });
-              });
-            /*for (let i = 0; i < this.plant.images.length; i++) {
-              console.log(this.plant.images[i]);
-            }*/
-            /*this.$nextTick(() => {
-              this.mountSplide();
-              this.addModalClickListeners();
-              window.addEventListener('resize', this.handleResize);
-            });*/
-          }
+    this.fetchCSV();
+    fetch('/acervo/images.json')
+      .then(res => res.json())
+      .then(imagesData => {
+        this.plantImages = imagesData[String(id)] || [];
+        this.$nextTick(() => {
+          this.mountSplide();
+          this.addModalClickListeners();
+          window.addEventListener('resize', this.handleResize);
         });
       });
-    // Fetch images.json after plant is set
-
   },
   beforeDestroy() {
     if (this.splide) {
@@ -138,6 +105,31 @@ export default {
     window.removeEventListener('resize', this.handleResize);
   },
   methods: {
+    async fetchCSV() {
+      const rawEntries = await dataStore.fetchTSV();
+      const entriesCopy = rawEntries.slice();
+      entriesCopy.shift(); // Remove header row
+
+      // Find the entry for the current id
+      const id = this.$route.params.id;
+      const entry = entriesCopy.find(cols => cols[0]?.trim() === id);
+
+      if (entry) {
+        this.plant = {
+          id: entry[0]?.trim(),
+          scientific_name: entry[1]?.trim(),
+          common_name: entry[2]?.trim(),
+          class: entry[3]?.trim(),
+          origin: entry[4]?.trim(),
+          type: entry[5]?.trim(),
+          latitude: entry[7]?.trim(),
+          longitude: entry[8]?.trim(),
+          description: entry[9]?.trim(),
+        };
+      } else {
+        this.plant = null;
+      }
+    },
     getPerPage() {
       return window.innerWidth <= 800 ? 1 : window.innerWidth <= 1200 ? 2 : 3;
     },
@@ -190,19 +182,6 @@ export default {
           this.style.display = 'none';
         }
       };
-    },
-    getDriveImageUrl(linkOrId) {
-      if (linkOrId.startsWith('https://drive.google.com/thumbnail?id=')) {
-        return linkOrId;
-      }
-      const match = linkOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (match) {
-        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
-      }
-      if (/^[a-zA-Z0-9_-]{20,}$/.test(linkOrId)) {
-        return `https://drive.google.com/thumbnail?id=${linkOrId}&sz=w1000`;
-      }
-      return linkOrId;
     },
   }
 }

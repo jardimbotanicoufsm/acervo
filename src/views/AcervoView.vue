@@ -17,51 +17,39 @@
       <p><strong>Tipo de Planta:</strong> {{ entry.type }}</p>
       </router-link>
     </div>
-    <div v-else>
-      Carregando dados...
+    <div v-else class="loading-container">
+      <div class="spinner"></div>
+      <span style="margin-top: 12px; color: #555;">Carregando dados...</span>
     </div>
   </div>
 </template>
 
 <script>
+import dataStore from '@/main.js';
 export default {
   name: 'AcervoView',
   data() {
     return {
       entries: [],
-      // Replace this with your actual Google Sheets CSV export link
-      csvUrl: 'https://docs.google.com/spreadsheets/d/1jxPq1Pj7szd6Cw3uQq1l9N6iFCEAeLUR1bh978gJF9g/export?format=tsv',
     };
   },
   methods: {
     async fetchCSV() {
-      try {
-        const response = await fetch(this.csvUrl);
-        const csvText = await response.text();
-        this.entries = this.parseCSV(csvText);
-      } catch (e) {
-        console.error('Erro ao buscar CSV:', e);
-      }
-    },
-    parseCSV(csv) {
-      const lines = csv.trim().split('\n');
-      // Remove header
-      lines.shift();
-      return lines.map(line => {
-        // Simple CSV split, works if no commas inside fields
-        // Split CSV line by tabs, ignoring tabs inside quotes
-        // Since fields are separated by tabs and there are no tabs inside fields,
-        // we can safely split by '\t' without worrying about quoted fields.
-        const cols = line.split('\t');
-        return {
+      const rawEntries = await dataStore.fetchTSV();
+      // Make a shallow copy so we don't mutate the global array
+      const entriesCopy = rawEntries.slice();
+      // Remove header row
+      entriesCopy.shift();
+      this.entries = entriesCopy
+        .filter(cols => cols.length > 1)
+        .map(cols => ({
           code: cols[0]?.trim(),
           scientificName: cols[1]?.trim(),
           commonName: cols[2]?.trim(),
           family: cols[3]?.trim(),
           origin: cols[4]?.trim(),
           type: cols[5]?.trim(),
-        };
-      });
+        }));
     },
   },
   mounted() {
@@ -82,5 +70,25 @@ th, td {
 }
 th {
   background: #f0f0f0;
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #e0e0e0;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 8px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
