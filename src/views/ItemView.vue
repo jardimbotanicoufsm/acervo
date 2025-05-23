@@ -14,7 +14,7 @@
                     :srcset="`${getOptimizedImage(img, 400)} 400w, ${getOptimizedImage(img, 800)} 800w`"
                     sizes="(max-width: 600px) 400px, 800px"
                     :alt="`Imagem ${idx + 1}`"
-                    @click="openModal(img)"
+                    :data-original="img"
                     style="cursor:zoom-in"
                   />
                 </li>
@@ -55,7 +55,7 @@
           <span style="display:inline-block; min-width: 300px;">Longitude: {{ plant.longitude }}</span>
         </p>
     </section>
-<!-- Splide carousel logic is now handled in the Vue component's mounted hook -->
+    <!-- Splide carousel logic is now handled in the Vue component's mounted hook -->
     <section class="section" id="menu">
       <button class="button" @click="$router.push('/itens')">Voltar para o Acervo</button>
     </section>
@@ -87,16 +87,31 @@ export default {
   mounted() {
     const id = this.$route.params.id;
     this.fetchCSV();
-    fetch('/acervo/images.json')
+    fetch(import.meta.env.BASE_URL + 'images.json')
       .then(res => res.json())
       .then(imagesData => {
         this.plantImages = imagesData[String(id)] || [];
+      });
+  },
+  watch: {
+    plantImages(newVal) {
+      if (this.plant && newVal.length > 0) {
         this.$nextTick(() => {
           this.mountSplide();
           this.addModalClickListeners();
           window.addEventListener('resize', this.handleResize);
         });
-      });
+      }
+    },
+    plant(newVal) {
+      if (newVal && this.plantImages.length > 0) {
+        this.$nextTick(() => {
+          this.mountSplide();
+          this.addModalClickListeners();
+          window.addEventListener('resize', this.handleResize);
+        });
+      }
+    }
   },
   beforeDestroy() {
     if (this.splide) {
@@ -137,6 +152,7 @@ export default {
       document.documentElement.style.setProperty('--splide-per-page', this.getPerPage());
     },
     mountSplide() {
+      console.log('Mounting splide');
       this.setPerPageCSSVar();
       if (this.splide) this.splide.destroy();
       this.splide = new Splide('#image-carousel', {
@@ -144,6 +160,14 @@ export default {
         perPage: this.getPerPage(),
       });
       this.splide.on('mounted updated move', this.addModalClickListeners);
+      // Adiciona listener para ampliar qualquer imagem, inclusive slides clonados
+      this.splide.on('click', (slide, e) => {
+        const img = slide.querySelector('img');
+        if (img) {
+          const dataOriginal = img.getAttribute('data-original');
+          this.openModal(dataOriginal);
+        }
+      });
       this.splide.mount();
     },
     handleResize() {
@@ -157,10 +181,13 @@ export default {
     },
     getOptimizedImage(img, size) {
       // Exemplo: /acervo/images/species/00277/20250514_110933.jpg => /acervo/images/species/00277/400/20250514_110933.jpg
+      console.log('getOptimizedImage input:', img, size);
       const parts = img.split('/');
       const filename = parts.pop();
       const id = parts[parts.length - 1];
-      return `/acervo/images/species/${id}/${size}/${filename}`;
+      const optimizedImg = `/acervo/images/species/${id}/${size}/${filename}`;
+      console.log('getOptimizedImage output:', optimizedImg);
+      return optimizedImg;
     },
     openModal(img) {
       // Carrega a versão 1920px no modal
@@ -173,7 +200,7 @@ export default {
       document.getElementById('modal-ampliar').style.display = 'flex';
     },
     addModalClickListeners() {
-      // Remove o onclick antigo, pois agora usamos @click no Vue
+      // Apenas listeners do modal (fechar)
       document.getElementById('fechar-modal').onclick = function () {
         document.getElementById('modal-ampliar').style.display = 'none';
       };
@@ -186,3 +213,26 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #e0e0e0;
+  border-top: 6px solid #4d6339;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 8px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
