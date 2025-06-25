@@ -82,7 +82,7 @@ th {
   width: 48px;
   height: 48px;
   border: 6px solid #e0e0e0;
-  border-top: 6px solid #3498db;
+  border-top: 6px solid #4d6339;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 8px;
